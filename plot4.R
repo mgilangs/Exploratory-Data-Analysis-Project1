@@ -1,0 +1,47 @@
+
+data1 <- read.table("household_power_consumption.txt", header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
+
+filterdata1 <- data1[data1$Date %in% c("1/2/2007","2/2/2007") ,]
+
+
+#######START########
+daytime <- strptime(paste(filterdata1$Date, filterdata1$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+
+plotdata1 <- as.numeric(filterdata1$Global_active_power)
+
+plotdata2 <- as.numeric(filterdata1$Global_reactive_power)
+
+plotdata3 <- as.numeric(filterdata1$Voltage)
+
+subMetering1 <- as.numeric(filterdata1$Sub_metering_1)
+
+subMetering2 <- as.numeric(filterdata1$Sub_metering_2)
+
+subMetering3 <- as.numeric(filterdata1$Sub_metering_3)
+
+
+png("plot4.png", width=480, height=480)
+
+par(mfrow = c(2, 2)) 
+
+plot(daytime, plotdata1, type="l", xlab="", ylab="Global Active Power", cex=0.2)
+
+plot(daytime, plotdata3, type="l", xlab="daytime", ylab="Voltage")
+
+plot(daytime, subMetering1, type="l", ylab="Energy Submetering", xlab="")
+
+lines(daytime, subMetering2, type="l", col="red")
+
+lines(daytime, subMetering3, type="l", col="blue")
+
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=, lwd=2.5, col=c("black", "red", "blue"), bty="o")
+
+plot(daytime, plotdata2, type="l", xlab="daytime", ylab="Global_reactive_power")
+
+dev.off()
+
+
+
+#######FINISH#########
+
+##Mochamad Gilang Saputra
